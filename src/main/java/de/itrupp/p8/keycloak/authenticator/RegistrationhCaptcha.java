@@ -160,6 +160,9 @@ public class RegistrationhCaptcha implements FormAction, FormActionFactory {
         formparams.add(new BasicNameValuePair("secret", secret));
         formparams.add(new BasicNameValuePair("response", captcha));
         formparams.add(new BasicNameValuePair("remoteip", context.getConnection().getRemoteAddr()));
+        ServicesLogger.LOGGER.recaptchaFailed("Secret: " + secret)
+        ServicesLogger.LOGGER.recaptchaFailed("remoteip: " + remoteip.toString()"
+        ServicesLogger.LOGGER.recaptchaFailed("response " + response);
         try {
             UrlEncodedFormEntity form = new UrlEncodedFormEntity(formparams, "UTF-8");
             post.setEntity(form);
