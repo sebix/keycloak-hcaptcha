@@ -165,25 +165,36 @@ public class RegistrationhCaptcha implements FormAction, FormActionFactory {
         formparams.add(new BasicNameValuePair("response", captcha));
         formparams.add(new BasicNameValuePair("remoteip", context.getConnection().getRemoteAddr()));
         ServicesLogger.LOGGER.info("secret: " + secret);
-        ServicesLogger.LOGGER.info("response: " + captcha);
+        ServicesLogger.LOGGER.info("captcha response: " + captcha);
         ServicesLogger.LOGGER.info(context.getConnection().getRemoteAddr());
         try {
+            ServicesLogger.LOGGER.info("try 1 start");
             UrlEncodedFormEntity form = new UrlEncodedFormEntity(formparams, "UTF-8");
             post.setEntity(form);
             try (CloseableHttpResponse response = httpClient.execute(post)) {
+                ServicesLogger.LOGGER.info("try 2 start");
                 InputStream content = response.getEntity().getContent();
+                ServicesLogger.LOGGER.info(content);
                 try {
+                    ServicesLogger.LOGGER.info("try 3 start");
                     @SuppressWarnings("rawtypes")
                     Map json = JsonSerialization.readValue(content, Map.class);
+                    ServicesLogger.LOGGER.info(json);
                     Object val = json.get("success");
                     success = Boolean.TRUE.equals(val);
+                    ServicesLogger.LOGGER.info("try 3 end");
                 } finally {
+                    ServicesLogger.LOGGER.info("try 3 finally");
                     EntityUtils.consumeQuietly(response.getEntity());
                 }
+                ServicesLogger.LOGGER.info("try 2 end");
             }
+            ServicesLogger.LOGGER.info("try 1 end");
         } catch (Exception e) {
+            ServicesLogger.LOGGER.info("try 1 catch");
             ServicesLogger.LOGGER.recaptchaFailed(e);
         }
+        ServicesLogger.LOGGER.info("success");
         return success;
     }
 
