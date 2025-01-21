@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RegistrationhCaptcha implements FormAction, FormActionFactory {
-    public static final String H_CAPTCHA_RESPONSE = "h-captcha-response";
+    public static final String H_CAPTCHA_RESPONSE = "g-recaptcha-response";
     public static final String HCAPTCHA_REFERENCE_CATEGORY = "hcaptcha";
     public static final String SITE_KEY = "site.key";
     public static final String SITE_SECRET = "secret";
