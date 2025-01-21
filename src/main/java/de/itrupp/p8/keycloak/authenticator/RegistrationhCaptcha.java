@@ -142,8 +142,10 @@ public class RegistrationhCaptcha implements FormAction, FormActionFactory {
             success = validateRecaptcha(context, success, captcha, secret);
         }
         if (success) {
+            ServicesLogger.LOGGER.info("call context.success");
             context.success();
         } else {
+            ServicesLogger.LOGGER.info("call context.error");
             errors.add(new FormMessage(null, Messages.RECAPTCHA_FAILED));
             formData.remove(H_CAPTCHA_RESPONSE);
             context.error(Errors.INVALID_REGISTRATION);
