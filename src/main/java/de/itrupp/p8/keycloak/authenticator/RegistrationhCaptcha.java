@@ -92,6 +92,7 @@ public class RegistrationhCaptcha implements FormAction, FormActionFactory {
 
     @Override
     public boolean isUserSetupAllowed() {
+        ServicesLogger.LOGGER.info("isUserSetupAllowed");
         return false;
     }
 
@@ -103,6 +104,7 @@ public class RegistrationhCaptcha implements FormAction, FormActionFactory {
 
     @Override
     public void buildPage(FormContext context, LoginFormsProvider form) {
+        ServicesLogger.LOGGER.info("buildPage");
         AuthenticatorConfigModel captchaConfig = context.getAuthenticatorConfig();
         String userLanguageTag = context.getSession().getContext().resolveLocale(context.getUser()).toLanguageTag();
 
@@ -125,6 +127,7 @@ public class RegistrationhCaptcha implements FormAction, FormActionFactory {
 
     @Override
     public void validate(ValidationContext context) {
+        ServicesLogger.LOGGER.info("validate");
 
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
         List<FormMessage> errors = new ArrayList<>();
@@ -154,15 +157,16 @@ public class RegistrationhCaptcha implements FormAction, FormActionFactory {
 
 
     protected boolean validateRecaptcha(ValidationContext context, boolean success, String captcha, String secret) {
+        ServicesLogger.LOGGER.info("validateRecaptcha");
         CloseableHttpClient httpClient = context.getSession().getProvider(HttpClientProvider.class).getHttpClient();
         HttpPost post = new HttpPost("https://hcaptcha.com/siteverify");
         List<NameValuePair> formparams = new LinkedList<>();
         formparams.add(new BasicNameValuePair("secret", secret));
         formparams.add(new BasicNameValuePair("response", captcha));
         formparams.add(new BasicNameValuePair("remoteip", context.getConnection().getRemoteAddr()));
-        ServicesLogger.LOGGER.recaptchaFailed("Secret: " + secret)
-        ServicesLogger.LOGGER.recaptchaFailed("remoteip: " + remoteip.toString()"
-        ServicesLogger.LOGGER.recaptchaFailed("response " + response);
+        ServicesLogger.LOGGER.info("secret: " + secret);
+        ServicesLogger.LOGGER.info("response: " + captcha);
+        ServicesLogger.LOGGER.info(context.getConnection().getRemoteAddr());
         try {
             UrlEncodedFormEntity form = new UrlEncodedFormEntity(formparams, "UTF-8");
             post.setEntity(form);
@@ -185,22 +189,24 @@ public class RegistrationhCaptcha implements FormAction, FormActionFactory {
 
     @Override
     public void success(FormContext context) {
-
+        ServicesLogger.LOGGER.info("success");
     }
 
     @Override
     public boolean requiresUser() {
+        ServicesLogger.LOGGER.info("requiresUser");
         return false;
     }
 
     @Override
     public boolean configuredFor(KeycloakSession session, RealmModel realm, UserModel user) {
+        ServicesLogger.LOGGER.info("configuredFor");
         return true;
     }
 
     @Override
     public void setRequiredActions(KeycloakSession session, RealmModel realm, UserModel user) {
-
+        ServicesLogger.LOGGER.info("setRequiredActions");
     }
 
     private static final List<ProviderConfigProperty> CONFIG_PROPERTIES = new ArrayList<ProviderConfigProperty>();
